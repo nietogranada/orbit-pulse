@@ -1,4 +1,4 @@
-const CACHE_NAME = 'orbit-pulse-v4.0.0';
+const CACHE_NAME = 'orbit-pulse-v4.0.1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -35,7 +35,9 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   const reqUrl = new URL(event.request.url);
-  if (reqUrl.origin !== self.location.origin || /\/ad(320|300)\.html$/.test(reqUrl.pathname)) return;
+  // ✅ FIX: regex restaurada (antes el "//" la comentaba y rompía el SW)
+  // No interceptamos ni recursos externos ni las páginas de anuncios
+  if (reqUrl.origin !== self.location.origin || /ad(320|300)\.html$/.test(reqUrl.pathname)) return;
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       return cachedResponse || fetch(event.request).then((networkResponse) => {
