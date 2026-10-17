@@ -30,18 +30,13 @@
       color: #fff;
       touch-action: none;
     }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
+    canvas { display: block; width: 100%; height: 100%; }
 
     /* HUD SUPERIOR */
     .hud {
       position: fixed;
       top: env(safe-area-inset-top, 10px);
-      left: 0;
-      right: 0;
+      left: 0; right: 0;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
@@ -51,384 +46,166 @@
     }
     .score-box { text-align: left; min-width: 85px; }
     .score-label {
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.5);
+      font-size: 10px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
     }
     .score-val {
-      font-size: 34px;
-      font-weight: 900;
-      color: #00f3ff;
-      text-shadow: 0 0 16px rgba(0, 243, 255, 0.75);
-      line-height: 1.05;
-      font-variant-numeric: tabular-nums;
+      font-size: 34px; font-weight: 900; color: #00f3ff;
+      text-shadow: 0 0 16px rgba(0,243,255,0.75);
+      line-height: 1.05; font-variant-numeric: tabular-nums;
     }
-    .center-hud {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
+    .center-hud { display: flex; flex-direction: column; align-items: center; gap: 5px; }
     .combo-pill {
-      background: rgba(255, 0, 127, 0.18);
-      border: 1.5px solid #ff007f;
-      padding: 4px 14px;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: 13px;
-      letter-spacing: 1px;
-      color: #ff85c1;
-      text-shadow: 0 0 10px #ff007f;
+      background: rgba(255,0,127,0.18); border: 1.5px solid #ff007f;
+      padding: 4px 14px; border-radius: 999px; font-weight: 900; font-size: 13px;
+      letter-spacing: 1px; color: #ff85c1; text-shadow: 0 0 10px #ff007f;
       transform: scale(1);
-      transition: transform 0.14s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s, border-color 0.2s;
+      transition: transform 0.14s cubic-bezier(0.175,0.885,0.32,1.275), background 0.2s, border-color 0.2s;
     }
     .combo-pill.fever {
-      background: rgba(255, 215, 0, 0.25);
-      border-color: #ffd700;
-      color: #fff3a1;
-      text-shadow: 0 0 14px #ffd700;
+      background: rgba(255,215,0,0.25); border-color: #ffd700;
+      color: #fff3a1; text-shadow: 0 0 14px #ffd700;
     }
-    .combo-bar-wrap {
-      width: 105px;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .combo-bar-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #00f3ff, #ff007f, #ffd700);
-      transition: width 0.08s linear;
-    }
+    .combo-bar-wrap { width: 105px; height: 5px; background: rgba(255,255,255,0.12); border-radius: 99px; overflow: hidden; }
+    .combo-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg,#00f3ff,#ff007f,#ffd700); transition: width 0.08s linear; }
     .status-badges { display: flex; gap: 6px; min-height: 18px; }
-    .mini-badge {
-      font-size: 10px;
-      font-weight: 900;
-      padding: 2px 8px;
-      border-radius: 99px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    .badge-shield {
-      background: rgba(0, 255, 136, 0.2);
-      border: 1px solid #00ff88;
-      color: #00ff88;
-      box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
-    }
-    .badge-fever {
-      background: rgba(255, 215, 0, 0.25);
-      border: 1px solid #ffd700;
-      color: #ffd700;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-    }
+    .mini-badge { font-size: 10px; font-weight: 900; padding: 2px 8px; border-radius: 99px; letter-spacing: 1px; text-transform: uppercase; }
+    .badge-shield { background: rgba(0,255,136,0.2); border: 1px solid #00ff88; color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.4); }
+    .badge-fever { background: rgba(255,215,0,0.25); border: 1px solid #ffd700; color: #ffd700; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+    .badge-orb { background: rgba(255,153,0,0.22); border: 1px solid #ff9900; color: #ffcc66; box-shadow: 0 0 10px rgba(255,153,0,0.45); }
 
     /* BOTÓN DE SONIDO */
     .mute-btn {
-      position: fixed;
-      top: calc(env(safe-area-inset-top, 10px) + 64px);
-      right: 18px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      font-size: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 25;
-      pointer-events: auto;
+      position: fixed; top: calc(env(safe-area-inset-top, 10px) + 64px); right: 18px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; font-size: 16px; display: flex; justify-content: center; align-items: center;
+      cursor: pointer; z-index: 25; pointer-events: auto;
     }
 
     /* BOTÓN DE INVERTIR GIRO (↻) */
     .flip-btn {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 10px) + 28px);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 92px;
-      height: 92px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(0, 243, 255, 0.35), rgba(0, 136, 255, 0.18));
-      border: 2.5px solid #00f3ff;
-      color: #00f3ff;
-      font-size: 40px;
-      font-weight: 900;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 25;
-      pointer-events: auto;
-      box-shadow: 0 0 26px rgba(0, 243, 255, 0.45), inset 0 0 18px rgba(0, 243, 255, 0.2);
+      left: 50%; transform: translateX(-50%);
+      width: 92px; height: 92px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(0,243,255,0.35), rgba(0,136,255,0.18));
+      border: 2.5px solid #00f3ff; color: #00f3ff;
+      font-size: 40px; font-weight: 900;
+      display: none; justify-content: center; align-items: center;
+      cursor: pointer; z-index: 25; pointer-events: auto;
+      box-shadow: 0 0 26px rgba(0,243,255,0.45), inset 0 0 18px rgba(0,243,255,0.2);
     }
     .flip-btn.visible { display: flex; }
     .flip-btn:active { transform: translateX(-50%) scale(0.9); }
 
     /* PANTALLA MENÚ / GAME OVER */
     .overlay {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      background: radial-gradient(circle at center, rgba(12, 15, 35, 0.88) 0%, rgba(5, 5, 10, 0.97) 100%);
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+      background: radial-gradient(circle at center, rgba(12,15,35,0.88) 0%, rgba(5,5,10,0.97) 100%);
       backdrop-filter: blur(10px);
-      z-index: 20;
-      padding: 18px 18px 10px;
-      text-align: center;
-      transition: opacity 0.25s ease;
-      overflow-y: auto;
+      z-index: 20; padding: 18px 18px 10px; text-align: center;
+      transition: opacity 0.25s ease; overflow-y: auto;
     }
     .overlay.hidden { opacity: 0; pointer-events: none; }
-    .menu-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 360px;
-      margin: auto 0;
-    }
+    .menu-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 360px; margin: auto 0; }
     .title {
-      font-size: clamp(32px, 8.5vw, 48px);
-      font-weight: 900;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, #00f3ff, #ff007f, #ffd700);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 18px rgba(0, 243, 255, 0.45));
-      margin-bottom: 4px;
+      font-size: clamp(32px, 8.5vw, 48px); font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+      background: linear-gradient(90deg,#00f3ff,#ff007f,#ffd700);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 18px rgba(0,243,255,0.45)); margin-bottom: 4px;
     }
-    .subtitle {
-      font-size: 12px;
-      line-height: 1.4;
-      color: rgba(255, 255, 255, 0.72);
-      margin-bottom: 12px;
-    }
+    .subtitle { font-size: 12px; line-height: 1.4; color: rgba(255,255,255,0.72); margin-bottom: 12px; }
 
     .card-stats {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(0, 243, 255, 0.28);
-      border-radius: 16px;
-      padding: 12px 16px;
-      width: 100%;
-      margin-bottom: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(0,243,255,0.28);
+      border-radius: 16px; padding: 12px 16px; width: 100%; margin-bottom: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
     }
-    .stat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .stat-cell {
-      background: rgba(0, 0, 0, 0.38);
-      padding: 6px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-    }
-    .stat-cell span {
-      display: block;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: rgba(255, 255, 255, 0.55);
-    }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .stat-cell { background: rgba(0,0,0,0.38); padding: 6px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.07); }
+    .stat-cell span { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.55); }
     .stat-cell strong { font-size: 20px; color: #00f3ff; font-weight: 900; }
     .rank-badge {
-      display: inline-block;
-      padding: 4px 14px;
-      border-radius: 99px;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      background: rgba(0, 243, 255, 0.15);
-      border: 1px solid #00f3ff;
-      color: #00f3ff;
+      display: inline-block; padding: 4px 14px; border-radius: 99px; font-size: 11px; font-weight: 900;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      background: rgba(0,243,255,0.15); border: 1px solid #00f3ff; color: #00f3ff;
     }
 
     /* HANGAR */
-    .hangar-title {
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.55);
-      margin-bottom: 8px;
-    }
-    .mothership-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      width: 100%;
-      margin-bottom: 14px;
-    }
+    .hangar-title { font-size: 10px; font-weight: 800; letter-spacing: 1.8px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 8px; }
+    .mothership-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; width: 100%; margin-bottom: 14px; }
     .ship-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1.5px solid rgba(255, 255, 255, 0.14);
-      border-radius: 12px;
-      padding: 8px 4px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      transition: transform 0.15s, border-color 0.15s, background 0.15s;
-      pointer-events: auto;
+      background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.14);
+      border-radius: 12px; padding: 8px 4px; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      transition: transform 0.15s, border-color 0.15s, background 0.15s; pointer-events: auto;
     }
-    .ship-card.active {
-      border-color: #00f3ff;
-      background: rgba(0, 243, 255, 0.14);
-      transform: translateY(-2px);
-      box-shadow: 0 0 14px rgba(0, 243, 255, 0.35);
-    }
+    .ship-card.active { border-color: #00f3ff; background: rgba(0,243,255,0.14); transform: translateY(-2px); box-shadow: 0 0 14px rgba(0,243,255,0.35); }
     .ship-card.locked { opacity: 0.45; }
-    .ship-name {
-      font-size: 9px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #fff;
-    }
+    .ship-name { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; }
     .ship-req { font-size: 8px; color: #ffd700; font-weight: 700; }
 
     /* BOTONES */
     .btn {
-      pointer-events: auto;
-      cursor: pointer;
-      border: none;
-      outline: none;
-      width: 100%;
-      padding: 14px 20px;
-      border-radius: 13px;
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      transition: transform 0.1s ease;
-      margin-bottom: 8px;
+      pointer-events: auto; cursor: pointer; border: none; outline: none;
+      width: 100%; padding: 14px 20px; border-radius: 13px;
+      font-size: 15px; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;
+      transition: transform 0.1s ease; margin-bottom: 8px;
     }
     .btn:active { transform: scale(0.96); }
-    .btn-primary {
-      background: linear-gradient(135deg, #00f3ff 0%, #0088ff 100%);
-      color: #05050a;
-      box-shadow: 0 0 22px rgba(0, 243, 255, 0.5);
+    .btn-primary { background: linear-gradient(135deg,#00f3ff 0%,#0088ff 100%); color: #05050a; box-shadow: 0 0 22px rgba(0,243,255,0.5); }
+    .btn-revive { background: linear-gradient(135deg,#00ff88 0%,#00b862 100%); color: #05050a; box-shadow: 0 0 22px rgba(0,255,136,0.55); animation: pulseRevive 1s infinite alternate; }
+    @keyframes pulseRevive { from { transform: scale(1); } to { transform: scale(1.03); } }
+    .btn-chest {
+      background: linear-gradient(135deg, rgba(255,153,0,0.18), rgba(255,215,0,0.22));
+      color: #ffcc66; border: 1.5px solid #ff9900;
+      font-size: 13px; padding: 12px 16px;
+      box-shadow: 0 0 15px rgba(255,153,0,0.25);
     }
-    .btn-revive {
-      background: linear-gradient(135deg, #00ff88 0%, #00b862 100%);
-      color: #05050a;
-      box-shadow: 0 0 22px rgba(0, 255, 136, 0.55);
-      animation: pulseRevive 1s infinite alternate;
-    }
-    @keyframes pulseRevive {
-      from { transform: scale(1); }
-      to { transform: scale(1.03); }
+    .btn-chest.claimed {
+      background: rgba(0,255,136,0.12); color: #00ff88; border-color: #00ff88;
+      box-shadow: 0 0 12px rgba(0,255,136,0.25);
     }
     .row-btns { display: flex; gap: 8px; width: 100%; }
-    .btn-share {
-      flex: 1;
-      background: rgba(255, 0, 127, 0.18);
-      color: #ff85c1;
-      border: 1.5px solid #ff007f;
-      font-size: 12px;
-      padding: 12px 10px;
-    }
-    .btn-pro {
-      flex: 1.2;
-      background: linear-gradient(135deg, rgba(255, 215, 0, 0.22), rgba(255, 140, 0, 0.25));
-      color: #ffd700;
-      border: 1.5px solid #ffd700;
-      font-size: 12px;
-      padding: 12px 10px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
-    }
+    .btn-share { flex: 1; background: rgba(255,0,127,0.18); color: #ff85c1; border: 1.5px solid #ff007f; font-size: 12px; padding: 12px 10px; }
+    .btn-pro { flex: 1.2; background: linear-gradient(135deg, rgba(255,215,0,0.22), rgba(255,140,0,0.25)); color: #ffd700; border: 1.5px solid #ffd700; font-size: 12px; padding: 12px 10px; box-shadow: 0 0 15px rgba(255,215,0,0.25); }
 
     /* BANNER 320x50 SOLO EN MENÚ */
     .ad-banner-slot {
-      width: 320px;
-      height: 52px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px dashed rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 1px;
-      overflow: hidden;
-      pointer-events: auto;
-      margin-top: 6px;
-      flex-shrink: 0;
+      width: 320px; height: 52px;
+      background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15);
+      border-radius: 8px; display: flex; justify-content: center; align-items: center;
+      font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px;
+      overflow: hidden; pointer-events: auto; margin-top: 6px; flex-shrink: 0;
     }
     .ad-banner-slot.hidden { display: none !important; }
 
-    /* MODAL DE ANUNCIO / RECOMPENSA */
+    /* MODAL DE ANUNCIO */
     .ad-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(3, 4, 9, 0.96);
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      text-align: center;
+      position: fixed; inset: 0; background: rgba(3,4,9,0.96); z-index: 50;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 24px; text-align: center;
     }
     .ad-modal.hidden { display: none; }
     .ad-timer-ring {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      border: 3px solid #00f3ff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
-      font-weight: 900;
-      color: #00f3ff;
-      margin-bottom: 16px;
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+      width: 68px; height: 68px; border-radius: 50%; border: 3px solid #00f3ff;
+      display: flex; justify-content: center; align-items: center;
+      font-size: 24px; font-weight: 900; color: #00f3ff; margin-bottom: 16px;
+      box-shadow: 0 0 20px rgba(0,243,255,0.4);
     }
     .ad-box-wrap {
-      width: 300px;
-      height: 250px;
-      margin-bottom: 16px;
-      background: #0b0d1a;
-      border: 1px solid rgba(0, 243, 255, 0.25);
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 300px; height: 250px; margin-bottom: 16px;
+      background: #0b0d1a; border: 1px solid rgba(0,243,255,0.25); border-radius: 10px;
+      overflow: hidden; display: flex; justify-content: center; align-items: center;
     }
 
     .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #00f3ff;
-      color: #05050a;
-      font-weight: 900;
-      padding: 10px 20px;
-      border-radius: 99px;
-      font-size: 12px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-      z-index: 60;
-      white-space: nowrap;
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #00f3ff; color: #05050a; font-weight: 900; padding: 10px 20px;
+      border-radius: 99px; font-size: 12px; opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease; z-index: 60; white-space: nowrap;
     }
     .toast.show { opacity: 1; }
 
@@ -456,6 +233,7 @@
       <div class="status-badges">
         <span class="mini-badge badge-shield" id="shieldBadge" style="display:none">🛡️ ESCUDO</span>
         <span class="mini-badge badge-fever" id="feverBadge" style="display:none">🔥 FIEBRE x2</span>
+        <span class="mini-badge badge-orb" id="orbBadge" style="display:none">🎁 ORBE x2</span>
       </div>
     </div>
 
@@ -466,8 +244,6 @@
   </div>
 
   <button class="mute-btn" id="muteBtn" title="Sonido">🔊</button>
-
-  <!-- BOTÓN DE INVERTIR GIRO -->
   <button class="flip-btn" id="flipBtn" title="Invertir giro">↻</button>
 
   <canvas id="gameCanvas"></canvas>
@@ -499,13 +275,15 @@
 
       <button class="btn btn-primary" id="playBtn">⚡ DESPEGAR AHORA</button>
 
+      <!-- 🎁 NUEVO: SEGUNDO REWARDED OPCIONAL EN EL MENÚ -->
+      <button class="btn btn-chest" id="chestBtn" style="display:none">🎁 COFRE ORBES x2 (VER ANUNCIO)</button>
+
       <div class="row-btns">
         <button class="btn btn-share" id="shareBtn" style="display:none">🔥 RETAR AMIGO</button>
         <button class="btn btn-pro" id="proBtn" style="display:none">👑 PASE PRO 0,50€ (SIN ADS + 4 NAVES)</button>
       </div>
     </div>
 
-    <!-- HUECO BANNER 320x50 -->
     <div class="ad-banner-slot" id="adBannerSlot">
       <iframe id="adBannerFrame" title="Publicidad" width="320" height="50" style="border:0;overflow:hidden" scrolling="no"></iframe>
     </div>
@@ -518,7 +296,6 @@
     <p style="font-size:13px; color:rgba(255,255,255,0.7); max-width:300px; margin-bottom:20px;" id="adModalDesc">
       Espera unos segundos para recibir tu Escudo de Emergencia y continuar la partida.
     </p>
-    <!-- AQUÍ SE CARGA TU ad300.html CON EL CÓDIGO REAL DE ADSTERRA -->
     <div class="ad-box-wrap">
       <iframe id="adBoxFrame" title="Publicidad" width="300" height="250" style="border:0;overflow:hidden" scrolling="no"></iframe>
     </div>
@@ -541,8 +318,8 @@
     // =========================================================================
     const MONETIZATION_CONFIG = {
       STRIPE_OR_PAYPAL_50C_URL: 'https://buy.stripe.com/TU_ENLACE_DE_50_CENTIMOS',
-      REWARDED_SMARTLINK_URL: '', // Opcional: smartlink de Adsterra/Monetag en pestaña nueva
-      GAMES_BETWEEN_INTERSTITIALS: 3
+      REWARDED_SMARTLINK_URL: '',
+      GAMES_BETWEEN_INTERSTITIALS: 2 // ✅ AHORA CADA 2 MUERTES (antes 3)
     };
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -567,6 +344,7 @@
     const comboBarFill = document.getElementById('comboBarFill');
     const shieldBadge = document.getElementById('shieldBadge');
     const feverBadge = document.getElementById('feverBadge');
+    const orbBadge = document.getElementById('orbBadge');
     const menuOverlay = document.getElementById('menuOverlay');
     const statsCard = document.getElementById('statsCard');
     const finalScore = document.getElementById('finalScore');
@@ -576,6 +354,7 @@
     const rankBadge = document.getElementById('rankBadge');
     const playBtn = document.getElementById('playBtn');
     const reviveBtn = document.getElementById('reviveBtn');
+    const chestBtn = document.getElementById('chestBtn');
     const shareBtn = document.getElementById('shareBtn');
     const proBtn = document.getElementById('proBtn');
     const skipAdsProBtn = document.getElementById('skipAdsProBtn');
@@ -653,6 +432,7 @@
         proBtn.style.display = 'block';
         adBannerSlot.classList.remove('hidden');
       }
+      updateChestBtn();
       renderHangar();
     }
 
@@ -695,7 +475,6 @@
         shipGrid.appendChild(card);
       });
     }
-    updateProUI();
 
     // =========================================================================
     // CONSENTIMIENTO + BANNER 320x50
@@ -711,6 +490,7 @@
         adBannerSlot.classList.add('hidden');
       }
       consentBar.style.display = (adsConsent === null && !isProUser) ? 'flex' : 'none';
+      updateChestBtn();
     }
 
     document.getElementById('consentYes').addEventListener('click', (e) => {
@@ -725,7 +505,43 @@
       localStorage.setItem('orbit_pulse_ads_consent', 'no');
       applyAdsState();
     });
-    applyAdsState();
+
+    // =========================================================================
+    // 🎁 COFRE DE ORBES x2 (SEGUNDO REWARDED OPCIONAL)
+    // =========================================================================
+    let orbBoostClaimed = false;  // Reclamado en el menú, esperando a la próxima partida
+    let orbBoostActive = false;   // Activo durante la partida actual
+
+    function updateChestBtn() {
+      const show = adsConsent === 'yes' && !isProUser;
+      chestBtn.style.display = show ? 'block' : 'none';
+      if (!show) return;
+      if (orbBoostClaimed) {
+        chestBtn.textContent = '✅ ORBES x2 LISTOS (PRÓXIMA PARTIDA)';
+        chestBtn.classList.add('claimed');
+      } else if (orbBoostActive) {
+        chestBtn.textContent = '🎁 ORBES x2 ACTIVOS EN ESTA PARTIDA';
+        chestBtn.classList.add('claimed');
+      } else {
+        chestBtn.textContent = '🎁 COFRE ORBES x2 (VER ANUNCIO)';
+        chestBtn.classList.remove('claimed');
+      }
+    }
+
+    chestBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (orbBoostClaimed || orbBoostActive) {
+        showToast('🎁 ¡El cofre ya está listo! Juega tu próxima partida.');
+        return;
+      }
+      triggerAdExperience('REWARDED', () => {
+        orbBoostClaimed = true;
+        updateChestBtn();
+        CyberSynth.pickup();
+        vibrate([30, 20, 30]);
+        showToast('🎁 ¡Cofre abierto! Orbes x2 en tu próxima partida');
+      });
+    });
 
     // =========================================================================
     // DIMENSIONES Y ESTRELLAS
@@ -824,8 +640,9 @@
     let bgFlash = 0;
     let usedReviveThisRun = false;
     let deathCount = 0;
-    let isAdShowing = false;          // ✅ Evita anuncios duplicados / solapados
-    let inputLockUntil = 0;           // ✅ Evita taps fantasma al cambiar de pantalla
+    let isAdShowing = false;
+    let inputLockUntil = 0;
+    let runBestAtStart = 0; // Para detectar récord nuevo y sugerir compartir
 
     let player = {
       angle: -Math.PI / 2,
@@ -885,6 +702,7 @@
 
       shieldBadge.style.display = player.shield ? 'inline-block' : 'none';
       feverBadge.style.display = feverTimer > 0 ? 'inline-block' : 'none';
+      orbBadge.style.display = orbBoostActive ? 'inline-block' : 'none';
 
       if (score > bestScore) {
         bestScore = score;
@@ -914,7 +732,6 @@
     // INICIO / REVIVIR / GAME OVER
     // =========================================================================
     function startGame() {
-      // ✅ BUG FIX: no reiniciar si ya estás jugando o hay un anuncio abierto
       if (state === 'PLAYING' || isAdShowing) return;
 
       CyberSynth.init();
@@ -930,7 +747,13 @@
       shake = 0;
       bgFlash = 0;
       usedReviveThisRun = false;
-      inputLockUntil = performance.now() + 300; // ✅ ignora taps residuales
+      inputLockUntil = performance.now() + 300;
+      runBestAtStart = bestScore;
+
+      // 🎁 Consume el cofre reclamado en esta partida
+      orbBoostActive = orbBoostClaimed;
+      orbBoostClaimed = false;
+      updateChestBtn();
 
       player.angle = -Math.PI / 2;
       player.dir = 1;
@@ -945,11 +768,15 @@
       floatTexts = [];
       rings = [];
       spawnTimer = 0.5;
-      bonusSpawnTimer = 2.2;
+      bonusSpawnTimer = orbBoostActive ? 1.2 : 2.2; // Con cofre: orbes antes
 
       updateHud();
       menuOverlay.classList.add('hidden');
       flipBtn.classList.add('visible');
+
+      if (orbBoostActive) {
+        addFloatText('🎁 ¡ORBES x2 ACTIVOS!', cx, cy - orbitR - 35, '#ffcc66', true);
+      }
     }
 
     function revivePlayerWithShield() {
@@ -969,9 +796,8 @@
       addFloatText('🛡️ ¡NODRIZA REPARADA!', cx, cy - orbitR - 30, '#00ff88', true);
     }
 
-    // ✅ GESTOR DE ANUNCIOS CORREGIDO: carga ad300.html real, sin duplicados
     function triggerAdExperience(type, onComplete) {
-      if (isAdShowing) return; // ✅ nunca dos anuncios a la vez
+      if (isAdShowing) return;
 
       if (isProUser || adsConsent !== 'yes') {
         onComplete();
@@ -983,7 +809,7 @@
       }
 
       isAdShowing = true;
-      adBoxFrame.src = 'ad300.html'; // 🚀 Tu anuncio real de Adsterra (300x250)
+      adBoxFrame.src = 'ad300.html';
       adModal.classList.remove('hidden');
 
       let remaining = type === 'REWARDED' ? 5 : 3;
@@ -1008,7 +834,6 @@
     }
 
     function flipDirection() {
-      // ✅ BUG FIX: solo durante juego, sin anuncio y sin taps fantasma
       if (state !== 'PLAYING' || isAdShowing) return;
       if (performance.now() < inputLockUntil) return;
 
@@ -1064,7 +889,6 @@
     }
 
     function gameOver() {
-      // ✅ BUG FIX: solo muere una vez
       if (state !== 'PLAYING') return;
 
       state = 'OVER';
@@ -1073,6 +897,8 @@
       CyberSynth.crash();
       vibrate([70, 40, 140]);
       flipBtn.classList.remove('visible');
+
+      const isNewRecord = score > runBestAtStart && score > 0;
 
       const px = cx + Math.cos(player.angle) * orbitR;
       const py = cy + Math.sin(player.angle) * orbitR;
@@ -1095,6 +921,12 @@
             score < 280 ? 'Almirante del Abismo' : 'Dios de la Nodriza';
           playBtn.textContent = '⚡ REINTENTAR';
           menuOverlay.classList.remove('hidden');
+          updateChestBtn();
+
+          // 🔥 Crecimiento: si hay récord nuevo, invita a retar
+          if (isNewRecord) {
+            showToast('🏆 ¡NUEVO RÉCORD! Reta a un amigo 🔥');
+          }
         };
 
         if (!isProUser && adsConsent === 'yes' && deathCount > 0 &&
@@ -1107,7 +939,7 @@
     }
 
     // =========================================================================
-    // CONTROLES: SOLO BOTÓN ↻ + TECLADO (ya no se toca en cualquier parte)
+    // CONTROLES
     // =========================================================================
     flipBtn.addEventListener('pointerdown', (e) => {
       e.preventDefault();
@@ -1161,7 +993,7 @@
     shareBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
       const shipName = MOTHERSHIPS[selectedShip].name;
-      const text = `🚀 He alcanzado ${score} puntos pilotando la nodriza ${shipName} (Combo x${maxCombo}) en ORBIT PULSE. ¿Puedes superarme?`;
+      const text = `🚀 He alcanzado ${score} puntos pilotando la nodriza ${shipName} (Combo x${maxCombo}) en ORBIT PULSE. ¿Puedes superarme? 🛸`;
       const url = window.location.href;
       if (navigator.share) {
         try { await navigator.share({ title: 'Orbit Pulse', text, url }); return; } catch (err) {}
@@ -1266,7 +1098,7 @@
         bonusSpawnTimer -= dt;
         if (bonusSpawnTimer <= 0) {
           spawnBonusOrb();
-          bonusSpawnTimer = 3.2 + Math.random() * 2.0;
+          bonusSpawnTimer = orbBoostActive ? 2.0 + Math.random() * 1.2 : 3.2 + Math.random() * 2.0;
         }
 
         for (let i = bonuses.length - 1; i >= 0; i--) {
@@ -1303,7 +1135,8 @@
               addPoints(3, bx, by - 20, '🛡️ ¡ESCUDO!', '#00ff88', true);
             } else {
               combo += 2;
-              addPoints(5, bx, by - 20, '🟡 ¡ORBE!', '#ffd700', true);
+              // 🎁 Con el cofre activo, los orbes valen el doble (10 en vez de 5)
+              addPoints(orbBoostActive ? 10 : 5, bx, by - 20, orbBoostActive ? '🎁 ¡ORBE x2!' : '🟡 ¡ORBE!', '#ffd700', true);
             }
             bonuses.splice(i, 1);
           }
@@ -1451,6 +1284,10 @@
       requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
+
+    // Inicialización final de UI
+    updateProUI();
+    applyAdsState();
   </script>
 </body>
 </html>
