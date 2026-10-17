@@ -152,6 +152,35 @@
       pointer-events: auto;
     }
 
+    /* BOTÓN DE FLIP DIRECCIÓN */
+    .flip-btn {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 10px) + 30px);
+      right: 30px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00f3ff 0%, #0088ff 100%);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      color: #05050a;
+      font-size: 36px;
+      font-weight: 900;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 25;
+      pointer-events: auto;
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+      transition: transform 0.1s ease;
+    }
+    .flip-btn:active {
+      transform: scale(0.92);
+    }
+    .flip-btn.visible {
+      display: flex;
+    }
+
     /* PANTALLA MENÚ / GAME OVER */
     .overlay {
       position: fixed;
@@ -405,6 +434,28 @@
       margin-bottom: 16px;
       box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
     }
+    .ad-placeholder {
+      width: 300px;
+      height: 250px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px dashed rgba(0, 243, 255, 0.3);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 20px;
+    }
+    .ad-placeholder-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
 
     .toast {
       position: fixed;
@@ -427,10 +478,35 @@
       opacity: 1;
     }
 
-    #consentBar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 40; background: #0f1123; border: 1px solid rgba(0,243,255,0.35); border-radius: 14px; padding: 12px 14px; flex-direction: column; gap: 10px; font-size: 12px; line-height: 1.4; color: rgba(255,255,255,0.85); }
+    #consentBar { 
+      position: fixed; 
+      left: 12px; 
+      right: 12px; 
+      bottom: 12px; 
+      z-index: 40; 
+      background: #0f1123; 
+      border: 1px solid rgba(0,243,255,0.35); 
+      border-radius: 14px; 
+      padding: 12px 14px; 
+      flex-direction: column; 
+      gap: 10px; 
+      font-size: 12px; 
+      line-height: 1.4; 
+      color: rgba(255,255,255,0.85); 
+    }
     #consentBar p { margin: 0; }
     #consentBar div { display: flex; gap: 8px; justify-content: flex-end; }
-    #consentBar button { pointer-events: auto; cursor: pointer; border-radius: 10px; padding: 8px 16px; font-weight: 800; font-size: 12px; border: 1px solid #00f3ff; background: transparent; color: #00f3ff; }
+    #consentBar button { 
+      pointer-events: auto; 
+      cursor: pointer; 
+      border-radius: 10px; 
+      padding: 8px 16px; 
+      font-weight: 800; 
+      font-size: 12px; 
+      border: 1px solid #00f3ff; 
+      background: transparent; 
+      color: #00f3ff; 
+    }
     #consentBar button#consentYes { background: #00f3ff; color: #05050a; }
     #proBtn, #skipAdsProBtn { display: none !important; }
   </style>
@@ -462,6 +538,9 @@
   </div>
 
   <button class="mute-btn" id="muteBtn" title="Sonido">🔊</button>
+
+  <!-- BOTÓN DE FLIP DIRECCIÓN -->
+  <button class="flip-btn" id="flipBtn">↻</button>
 
   <canvas id="gameCanvas"></canvas>
 
@@ -513,8 +592,12 @@
     <p style="font-size:13px; color:rgba(255,255,255,0.7); max-width:300px; margin-bottom:20px;" id="adModalDesc">
       Espera unos segundos para recibir tu Escudo de Emergencia y continuar la partida.
     </p>
-    <!-- Contenedor donde puedes inyectar un anuncio nativo/intersticial -->
-    <div id="adInterstitialContainer" style="width:300px;height:250px;margin-bottom:16px;"><iframe id="adBoxFrame" title="Publicidad" width="300" height="250" style="border:0;overflow:hidden" scrolling="no"></iframe></div>
+    <!-- Placeholder visual cuando no hay anuncio real -->
+    <div class="ad-placeholder" id="adPlaceholder">
+      <div class="ad-placeholder-icon">🎬</div>
+      <p style="color:#00f3ff; font-weight:700; margin-bottom:8px;">Anuncio de Patrocinador</p>
+      <p style="font-size:11px; color:rgba(255,255,255,0.6);">Configura tu red de anuncios en MONETIZATION_CONFIG</p>
+    </div>
     <button class="btn btn-pro" id="skipAdsProBtn" style="max-width:300px;">👑 QUITAR ANUNCIOS POR 0,50 €</button>
   </div>
 
@@ -534,11 +617,10 @@
     // =========================================================================
     const MONETIZATION_CONFIG = {
       // 1. Pega aquí tu enlace de pago de 0,50€ de Stripe o PayPal.me
-      // Configura Stripe/PayPal para que al pagar redirija a: https://tu-web.netlify.app/?pro_unlock=orbit_vip_2026
       STRIPE_OR_PAYPAL_50C_URL: 'https://buy.stripe.com/TU_ENLACE_DE_50_CENTIMOS',
 
-      // 2. Si usas un Smartlink / Direct Link de Monetag o Adsterra para los anuncios bonificados, ponlo aquí (opcional):
-      REWARDED_SMARTLINK_URL: '',
+      // 2. URL del iframe del anuncio bonificado (300x250) - si no existe, se muestra placeholder
+      REWARDED_AD_URL: 'ad300.html',
 
       // 3. Cada cuántas partidas mostrar un anuncio corto (3 = equilibrio perfecto sin cansar)
       GAMES_BETWEEN_INTERSTITIALS: 3
@@ -585,9 +667,11 @@
     const adTimerNum = document.getElementById('adTimerNum');
     const adModalTitle = document.getElementById('adModalTitle');
     const adModalDesc = document.getElementById('adModalDesc');
+    const adPlaceholder = document.getElementById('adPlaceholder');
     const muteBtn = document.getElementById('muteBtn');
     const toastMsg = document.getElementById('toastMsg');
     const shipGrid = document.getElementById('shipGrid');
+    const flipBtn = document.getElementById('flipBtn');
 
     // =========================================================================
     // DEFINICIÓN DE LAS 4 NAVES NODRIZAS
@@ -614,7 +698,6 @@
       c.lineWidth = 1.4;
 
       if (shapeType === 'DELTA') {
-        // caza triangular afilado con alas en flecha
         c.beginPath();
         c.moveTo(15, 0);
         c.lineTo(-11, 11);
@@ -626,7 +709,6 @@
         c.fill();
         c.stroke();
       } else if (shapeType === 'VALKYRIE') {
-        // Nodriza de doble ala curva hacia adelante
         c.beginPath();
         c.moveTo(16, 0);
         c.lineTo(2, 5);
@@ -640,7 +722,6 @@
         c.fill();
         c.stroke();
       } else if (shapeType === 'HEX') {
-        // Acorazado pesado hexagonal con núcleo brillante
         c.beginPath();
         c.moveTo(15, 0);
         c.lineTo(6, 11);
@@ -652,7 +733,6 @@
         c.fill();
         c.stroke();
       } else if (shapeType === 'CRUISER') {
-        // Nodriza imperial de triple punta
         c.beginPath();
         c.moveTo(18, 0);
         c.lineTo(4, 4);
@@ -667,7 +747,6 @@
         c.stroke();
       }
 
-      // Cabina central blanca brillante
       c.fillStyle = '#ffffff';
       c.beginPath();
       c.arc(2, 0, 3.2, 0, Math.PI * 2);
@@ -712,7 +791,8 @@
         card.appendChild(nameEl);
         card.appendChild(reqEl);
 
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
           if (unlocked) {
             selectedShip = sh.id;
             localStorage.setItem('orbit_pulse_ship', String(sh.id));
@@ -728,9 +808,8 @@
 
     // ---- Anuncios en iframes + consentimiento ----
     const adBannerFrame = document.getElementById('adBannerFrame');
-    const adBoxFrame = document.getElementById('adBoxFrame');
     const consentBar = document.getElementById('consentBar');
-    let adsConsent = localStorage.getItem('orbit_pulse_ads_consent'); // 'yes' | 'no' | null
+    let adsConsent = localStorage.getItem('orbit_pulse_ads_consent');
 
     function applyAdsState() {
       const show = adsConsent === 'yes' && !isProUser;
@@ -742,16 +821,21 @@
       }
       consentBar.style.display = (adsConsent === null && !isProUser) ? 'flex' : 'none';
     }
-    document.getElementById('consentYes').addEventListener('click', () => {
+    
+    document.getElementById('consentYes').addEventListener('click', (e) => {
+      e.stopPropagation();
       adsConsent = 'yes';
       localStorage.setItem('orbit_pulse_ads_consent', 'yes');
       applyAdsState();
     });
-    document.getElementById('consentNo').addEventListener('click', () => {
+    
+    document.getElementById('consentNo').addEventListener('click', (e) => {
+      e.stopPropagation();
       adsConsent = 'no';
       localStorage.setItem('orbit_pulse_ads_consent', 'no');
       applyAdsState();
     });
+    
     applyAdsState();
 
     // Dimensiones y Estrellas
@@ -825,7 +909,8 @@
       crash() { this.tone(135, 0.48, 'sawtooth', 0.3, -95); }
     };
 
-    muteBtn.addEventListener('click', () => {
+    muteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       CyberSynth.muted = !CyberSynth.muted;
       muteBtn.textContent = CyberSynth.muted ? '🔇' : '🔊';
     });
@@ -844,6 +929,7 @@
     let bgFlash = 0;
     let usedReviveThisRun = false;
     let deathCount = 0;
+    let isAdShowing = false;
 
     let player = {
       angle: -Math.PI / 2,
@@ -931,6 +1017,8 @@
     }
 
     function startGame() {
+      if (state === 'PLAYING' || isAdShowing) return;
+      
       CyberSynth.init();
       state = 'PLAYING';
       score = 0;
@@ -962,13 +1050,14 @@
 
       updateHud();
       menuOverlay.classList.add('hidden');
+      flipBtn.classList.add('visible');
     }
 
     // Revivir al jugador tras ver el anuncio bonificado
     function revivePlayerWithShield() {
       usedReviveThisRun = true;
       state = 'PLAYING';
-      pulses = []; // Limpia los láseres cercanos
+      pulses = [];
       player.shield = true;
       player.invulnerable = 2.0;
       comboTimer = 1.0;
@@ -976,22 +1065,20 @@
       CyberSynth.pickup();
       updateHud();
       menuOverlay.classList.add('hidden');
+      flipBtn.classList.add('visible');
       addFloatText('🛡️ ¡NODRIZA REPARADA!', cx, cy - orbitR - 30, '#00ff88', true);
     }
 
-    // Gestor de Anuncios No Intrusivos
+    // Gestor de Anuncios - CORREGIDO
     function triggerAdExperience(type, onComplete) {
       if (isProUser || adsConsent !== 'yes') {
         onComplete();
         return;
       }
 
-      // Si configuraste un Smartlink externo para abrir en pestaña nueva en anuncios bonificados
-      if (type === 'REWARDED' && MONETIZATION_CONFIG.REWARDED_SMARTLINK_URL) {
-        window.open(MONETIZATION_CONFIG.REWARDED_SMARTLINK_URL, '_blank');
-      }
+      if (isAdShowing) return;
+      isAdShowing = true;
 
-      adBoxFrame.src = 'ad300.html';
       adModal.classList.remove('hidden');
       let remaining = type === 'REWARDED' ? 5 : 3;
       adTimerNum.textContent = remaining;
@@ -1000,6 +1087,16 @@
         ? 'Reparando el casco de tu Nave Nodriza y cargando Escudo...'
         : 'Gracias por apoyar el desarrollo de Orbit Pulse.';
 
+      // Intentar cargar el iframe del anuncio, si no existe mostrará placeholder
+      const adFrame = document.getElementById('adBoxFrame');
+      if (adFrame && MONETIZATION_CONFIG.REWARDED_AD_URL) {
+        adFrame.src = MONETIZATION_CONFIG.REWARDED_AD_URL;
+        adFrame.style.display = 'block';
+        adPlaceholder.style.display = 'none';
+      } else {
+        adPlaceholder.style.display = 'flex';
+      }
+
       const interval = setInterval(() => {
         remaining--;
         if (remaining > 0) {
@@ -1007,14 +1104,18 @@
         } else {
           clearInterval(interval);
           adModal.classList.add('hidden');
-          adBoxFrame.src = 'about:blank';
+          if (adFrame) {
+            adFrame.src = 'about:blank';
+            adFrame.style.display = 'none';
+          }
+          isAdShowing = false;
           onComplete();
         }
       }, 1000);
     }
 
     function flipDirection() {
-      if (state !== 'PLAYING') return;
+      if (state !== 'PLAYING' || isAdShowing) return;
       player.dir *= -1;
       CyberSynth.flip();
       vibrate(12);
@@ -1072,11 +1173,14 @@
     }
 
     function gameOver() {
+      if (state !== 'PLAYING') return;
+      
       state = 'OVER';
       deathCount++;
       shake = 20;
       CyberSynth.crash();
       vibrate([70, 40, 140]);
+      flipBtn.classList.remove('visible');
 
       const px = cx + Math.cos(player.angle) * orbitR;
       const py = cy + Math.sin(player.angle) * orbitR;
@@ -1088,7 +1192,6 @@
           renderHangar();
           statsCard.style.display = 'block';
           shareBtn.style.display = 'block';
-          // Mostrar botón de Revivir si no se ha usado aún en esta partida y lleva al menos 15 puntos
           reviveBtn.style.display = (!usedReviveThisRun && score >= 15) ? 'block' : 'none';
           finalScore.textContent = score;
           finalBest.textContent = bestScore;
@@ -1102,7 +1205,6 @@
           menuOverlay.classList.remove('hidden');
         };
 
-        // Mostrar anuncio intersticial suave solo cada 3 partidas (nunca en la primera)
         if (!isProUser && deathCount > 0 && deathCount % MONETIZATION_CONFIG.GAMES_BETWEEN_INTERSTITIALS === 0) {
           triggerAdExperience('INTERSTITIAL', showMenu);
         } else {
@@ -1111,35 +1213,60 @@
       }, 450);
     }
 
-    // Eventos UI
-    window.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('button') || e.target.closest('.ship-card') || e.target.closest('.ad-banner-slot') || e.target.closest('.ad-modal')) return;
-      if (state === 'PLAYING') flipDirection();
-    });
-    window.addEventListener('keydown', (e) => {
-      if (e.code === 'Space') {
-        e.preventDefault();
-        if (state === 'PLAYING') flipDirection();
-        else if (adModal.classList.contains('hidden')) startGame();
+    // EVENTOS CORREGIDOS - Solo botón de flip y teclado
+    flipBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (state === 'PLAYING' && !isAdShowing) {
+        flipDirection();
       }
     });
 
-    playBtn.addEventListener('click', startGame);
+    flipBtn.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (state === 'PLAYING' && !isAdShowing) {
+        flipDirection();
+      }
+    }, { passive: false });
 
-    reviveBtn.addEventListener('click', () => {
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (state === 'PLAYING' && !isAdShowing) flipDirection();
+        else if (state === 'MENU' && adModal.classList.contains('hidden')) startGame();
+      }
+    });
+
+    // Prevenir clicks en el canvas durante gameplay
+    canvas.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+    }, { passive: true });
+
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      startGame();
+    });
+
+    reviveBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       triggerAdExperience('REWARDED', () => {
         revivePlayerWithShield();
       });
     });
 
-    function handleBuyPro() {
+    function handleBuyPro(e) {
+      e.stopPropagation();
       if (MONETIZATION_CONFIG.STRIPE_OR_PAYPAL_50C_URL.includes('TU_ENLACE')) {
-        // Modo demostración si aún no has pegado tu link de Stripe/PayPal
         const confirmDemo = confirm('👑 PASE PRO (0,50 €)\n\nDesbloquea las 4 Naves Nodrizas al instante y elimina todos los anuncios para siempre.\n\n(Pulsa Aceptar para probar la activación PRO ahora mismo)');
         if (confirmDemo) {
           isProUser = true;
           localStorage.setItem('orbit_pulse_pro', 'true');
           adModal.classList.add('hidden');
+          isAdShowing = false;
           updateProUI();
           showToast('👑 ¡PASE PRO ACTIVADO! 4 Naves Desbloqueadas');
         }
@@ -1151,7 +1278,8 @@
     proBtn.addEventListener('click', handleBuyPro);
     skipAdsProBtn.addEventListener('click', handleBuyPro);
 
-    shareBtn.addEventListener('click', async () => {
+    shareBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
       const shipName = MOTHERSHIPS[selectedShip].name;
       const text = `🚀 He alcanzado ${score} puntos pilotando la nodriza ${shipName} (Combo x${maxCombo}) en ORBIT PULSE. ¿Puedes superarme?`;
       const url = window.location.href;
@@ -1200,7 +1328,6 @@
         ctx.fill();
       }
 
-      // Agujero Negro Central
       const pulseCore = 24 + Math.sin(now * 0.007) * 5 + (combo * 0.6);
       const coreGrad = ctx.createRadialGradient(cx, cy, 4, cx, cy, pulseCore * 2.6);
       coreGrad.addColorStop(0, feverTimer > 0 ? '#ffd700' : '#ff007f');
@@ -1211,7 +1338,6 @@
       ctx.arc(cx, cy, pulseCore * 2.6, 0, Math.PI * 2);
       ctx.fill();
 
-      // Anillo Orbital
       ctx.strokeStyle = feverTimer > 0 ? 'rgba(255, 215, 0, 0.45)' : 'rgba(0, 243, 255, 0.24)';
       ctx.lineWidth = feverTimer > 0 ? 4 : 3;
       ctx.beginPath();
@@ -1371,7 +1497,6 @@
         }
       }
 
-      // Estela de propulsión de la Nave Nodriza
       for (let i = 0; i < player.trail.length; i++) {
         const t = player.trail[i];
         const ratio = i / player.trail.length;
@@ -1383,7 +1508,6 @@
       }
       ctx.globalAlpha = 1;
 
-      // Dibujar Nave Nodriza orientada tangencialmente a la órbita
       if (state !== 'OVER') {
         const px = cx + Math.cos(player.angle) * orbitR;
         const py = cy + Math.sin(player.angle) * orbitR;
