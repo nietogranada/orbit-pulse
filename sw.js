@@ -1,4 +1,4 @@
-const CACHE_NAME = 'orbit-pulse-v4.0.1';
+const CACHE_NAME = 'orbit-pulse-v5.0.1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
